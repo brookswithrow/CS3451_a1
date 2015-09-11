@@ -385,6 +385,19 @@ function defaultScene(): Scene {
     };
 }
 
+function myScene(): Scene {
+    return {
+        things: [new Plane(new Vector(0.0, 1.0, 0.0), 0.0, Surfaces.checkerboard),
+                 new MovingSphere(new Vector(1.0, 1.0, -1.0), 1.0, Surfaces.shiny),
+                 new MovingSphere(new Vector(1.0, 1.0, 1.0), 1.0, Surfaces.shiny)],
+        lights: [{ pos: new Vector(-2.0, 2.5, 0.0), color: new Color(0.0, 0.0, 0.4) },
+                 { pos: new Vector(1.5, 2.5, 1.5), color: new Color(0.0, 0.4, 0.0) },
+                 { pos: new Vector(1.5, 2.5, -1.5), color: new Color(0.4, 0.0, 0.0) }],
+        camera: new Camera(new Vector(1.0, 6.0, 0.0), new Vector(0.1, 1.0, 0.0), 0.5, 4, 3)
+    };
+}
+
+
 function exec() {
     var canv = document.createElement("canvas");
     canv.width = 640;
@@ -399,7 +412,7 @@ function exec() {
     var encoder = new Whammy.Video(fps);
     
     // start the raytracer
-    rayTracer.render(defaultScene(), encoder, length, fps, ctx, 640, 480, canv.width, canv.height, 4);
+    rayTracer.render(myScene(), encoder, length, fps, ctx, 640, 480, canv.width, canv.height, 4);
 }
 
 exec();
