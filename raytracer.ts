@@ -314,7 +314,7 @@ class RayTracer {
 
         var renderRow = () => {
             for (var x = 0; x < screenWidth; x++) {
-                var r = 0;
+               /* var r = 0;
                 var g = 0;
                 var b = 0;
                 for (var p = 0; p < grid; p++) {
@@ -331,9 +331,9 @@ class RayTracer {
                 g = g / Math.pow(grid, 2);
                 b = b / Math.pow(grid, 2);
                 var color = new Color(r, g, b);
-                var c = Color.toDrawingColor(color);
-                /*var color = this.traceRay({ start: scene.camera.pos, dir: getPoint(x, y, scene.camera) }, scene, 0);
                 var c = Color.toDrawingColor(color);*/
+                var color = this.traceRay({ start: scene.camera.pos, dir: getPoint(x, y, scene.camera) }, scene, 0, frame);
+                var c = Color.toDrawingColor(color);
                 ctx.fillStyle = "rgb(" + String(c.r) + ", " + String(c.g) + ", " + String(c.b) + ")";
                 ctx.fillRect(x * pixelWidth, y * pixelHeight, pixelWidth, pixelHeight);
             }
