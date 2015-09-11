@@ -5,8 +5,7 @@
 		"noImplicitAny": false,
 		"preserveConstEnums":true,
 		"outDir": "js",
-		"sourceMap": true,
-		"watch": true
+		"sourceMap": true
 	},
 	"files": [
 		"raytracer.ts"
