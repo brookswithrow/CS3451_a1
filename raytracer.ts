@@ -321,7 +321,7 @@ class RayTracer {
                     for (var q = 0; q < grid; q++) {
                         var rx = Math.random();
                         var ry = Math.random();
-                        var c = this.traceRay({ start: scene.camera.pos, dir: getPoint(x+((p+rx)/grid), y+((ry+q)/grid), scene.camera) }, scene, 0, frame + Math.random());
+                        var c = this.traceRay({ start: scene.camera.pos, dir: getPoint(x+((p+rx)/grid), y+((ry+q)/grid), scene.camera) }, scene, 0, frame);
                         r += c.r;
                         g += c.g;
                         b += c.b;
