@@ -109,7 +109,7 @@ class Sphere implements Thing {
     constructor(public center: Vector, radius: number, public surface: Surface) {
         this.radius2 = radius * radius;
     }
-    normal(pos: Vector): Vector { return Vector.norm(Vector.minus(pos, this.center)); }
+    normal(pos: Vector, time: number): Vector { return Vector.norm(Vector.minus(pos, this.center)); }
     intersect(ray: Ray, time: number) {
         var eo = Vector.minus(this.center, ray.start);
         var v = Vector.dot(eo, ray.dir);
@@ -167,7 +167,7 @@ class MovingSphere implements Thing {
 
 class Plane implements Thing {
     public normal: (pos: Vector, time: number) =>Vector;
-    public intersect: (ray: Ray) =>Intersection;
+    public intersect: (ray: Ray, time: number) =>Intersection;
     constructor(norm: Vector, offset: number, public surface: Surface) {
         this.normal = function(pos: Vector) { return norm; }
         this.intersect = function(ray: Ray): Intersection {
@@ -294,12 +294,8 @@ class RayTracer {
                 ctx : CanvasRenderingContext2D, 
                 screenWidth, screenHeight, canvasWidth, canvasHeight, grid: number) {
         var getPoint = (x, y, camera) => {
-            /*var recenterX = x =>(x - (screenWidth / 2.0)) / 2.0 / screenWidth;
-            var recenterY = y => - (y - (screenHeight / 2.0)) / 2.0 / screenHeight;*/
             var recenterX = x =>((x*(camera.hsize/screenWidth) - (camera.hsize / 2.0)) / (camera.hsize / 2.0))/4;
             var recenterY = y => - ((y*(camera.vsize/screenHeight) - (camera.vsize / 2.0)) / (camera.vsize / 2.0))/4;
-
-
             return Vector.norm(Vector.plus(Vector.times(camera.distance, camera.forward), Vector.plus(Vector.times(recenterX(x), camera.right), Vector.times(recenterY(y), camera.up))));
         }
         // rather than doing a for loop for y, we're going to draw each line in
@@ -310,7 +306,7 @@ class RayTracer {
  
         // how many frames       
         var frame = length * fps;
-        
+       
 
         var renderRow = () => {
             for (var x = 0; x < screenWidth; x++) {
@@ -332,8 +328,6 @@ class RayTracer {
                 b = b / Math.pow(grid, 2);
                 var color = new Color(r, g, b);
                 var c = Color.toDrawingColor(color);
-                /*var color = this.traceRay({ start: scene.camera.pos, dir: getPoint(x, y, scene.camera) }, scene, 0);
-                var c = Color.toDrawingColor(color);*/
                 ctx.fillStyle = "rgb(" + String(c.r) + ", " + String(c.g) + ", " + String(c.b) + ")";
                 ctx.fillRect(x * pixelWidth, y * pixelHeight, pixelWidth, pixelHeight);
             }
